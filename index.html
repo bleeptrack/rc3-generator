@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	<meta charset="utf-8"/>
+    <title>RC3 Generator</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/simplex-noise/2.4.0/simplex-noise.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/opentype.js@latest/dist/opentype.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.11/paper-full.min.js"></script>
+    <script src="generator.js"></script>
+
+
+  </head>
+  <body>
+
+	<div id="infobox">
+		<a href="https://twitter.com/Bleeptrack">by bleeptrack</a>&nbsp;-&nbsp;<a href="https://github.com/bleeptrack/rc3-generator">Code on Github</a></span>
+	</div>
+	<form class="menue">
+
+			<div class="stagecontent">
+				<input type="text" id="simulationtext" placeholder="your text (16 char max)" autocomplete="off" oninput="setText(this.value)"></input>
+			</div>
+
+			<div class="stagecontent">
+			<input type="radio" id="col1" name="radio-group" value="0" onchange="setColor(this.value)" checked="checked" autocomplete="off">
+            <label for="col1"></label>
+            </div>
+            <div class="stagecontent" id="col2stage">
+            <input type="radio" id="col2" name="radio-group" value="1" onchange="setColor(this.value)" autocomplete="off">
+            <label for="col2"></label>
+            </div>
+            <div class="stagecontent" id="col3stage">
+            <input type="radio" id="col3" name="radio-group" value="2" onchange="setColor(this.value)" autocomplete="off">
+            <label for="col3"></label>
+            </div>
+
+			<div class="stagecontent">
+				<button type="button" onclick="downloadPNG()">save PNG</button>
+			</div>
+			<div class="stagecontent">
+				<button type="button" onclick="downloadSVG()">save SVG</button>
+			</div>
+
+    </form>
+    <canvas id="paperCanvas" resize="true"></canvas>
+    <div id="help">
+        <div id="helpcontent">
+            <p>Expert Interactions:</p>
+            <ul>
+                <li>Click on pixel to change color.</li>
+                <li>Click somewhere else for a new random pattern.</li>
+                <li>Drag text/box to change parallax offset.</li>
+            </ul>
+        </div>
+        <button id="helpbutton">?</button>
+    </div>
+  </body>
+</html>

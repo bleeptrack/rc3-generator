@@ -1,0 +1,188 @@
+ @font-face {
+  font-family: Orbitron;
+  src: url(Orbitron-Bold.ttf);
+}
+
+html,
+body {
+    height: 100%;
+	color: #D0D0CE;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+}
+
+
+body{
+	background-color: black;
+}
+
+[type="radio"]:checked,
+[type="radio"]:not(:checked) {
+    position: absolute;
+    left: -9999px;
+}
+[type="radio"]:checked + label,
+[type="radio"]:not(:checked) + label
+{
+    position: relative;
+    padding-left: 28px;
+    cursor: pointer;
+    line-height: 20px;
+    display: inline-block;
+    color: blue;
+}
+[type="radio"]:checked + label:before,
+[type="radio"]:not(:checked) + label:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 3vw;
+    height: 3vw;
+}
+[type="radio"]:checked + label:after,
+[type="radio"]:not(:checked) + label:after {
+    content: '';
+    width: 3vw;
+    height: 3vw;
+
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    -webkit-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+}
+
+
+#col1:checked + label:before,
+#col1:not(:checked) + label:before {
+    border: 2px solid #B239FF;
+}
+#col2:checked + label:before,
+#col2:not(:checked) + label:before {
+    border: 2px solid #6800E7;
+}
+#col3:checked + label:before,
+#col3:not(:checked) + label:before {
+    border: 2px solid #05B9EC;
+}
+
+#col1 + label:after{
+    background: #B239FF;
+}
+#col2 + label:after{
+    background: #6800E7;
+}
+#col3 + label:after{
+    background: #05B9EC;
+}
+[type="radio"]:not(:checked) + label:after {
+    opacity: 0;
+    -webkit-transform: scale(0);
+    transform: scale(0);
+}
+[type="radio"]:checked + label:after {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+}
+
+#col2stage, #col3stage{
+    margin-left: 2vw;
+}
+
+#col3stage{
+    margin-right: 2.8vw;
+}
+
+#infobox{
+position: fixed;
+bottom: 5px;
+right: 5px;
+color: #6800E7;
+}
+
+#infobox>a{
+	color: #6800E7;
+	font-family: sans-serif;
+	font-size: 1vw;
+	text-decoration: none;
+}
+
+#infobox>a:hover{
+	color: #05B9EC;
+}
+
+/* Scale canvas with resize attribute to full size */
+canvas[resize] {
+    width: 100%;
+    height: 99%;
+}
+
+.menue{
+	position: fixed;
+	top: 0px;
+	display: flex;
+	width: 100%;
+}
+
+#help{
+    font-family: Orbitron, sans-serif;
+    position: fixed;
+    bottom: 0px;
+    margin: 20px;
+}
+
+#helpcontent{
+    visibility: hidden;
+}
+
+.stagecontent{
+	height: calc(100% - 2.5em);
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	margin: 1vw;
+}
+
+
+textarea, input[type="text"]{
+	font-size: 2vw;
+	border: none;
+	color: #B239FF;
+	font-family: sans-serif;
+	padding: 5px;
+	background-color: transparent;
+	border: 2px solid #B239FF;
+	height: calc(3vw - 10px);
+}
+
+button{
+  display: block;
+  /*height: 40px;*/
+  line-height: 3vw;
+  font-size: 2vw;
+  font-family: 'Orbitron', sans-serif;
+  text-decoration: none;
+  color: #B239FF;
+  border: 2px solid #B239FF;
+  letter-spacing: 2px;
+  text-align: center;
+  position: relative;
+  transition: all .35s;
+  padding-left: 1.5em;
+  padding-right: 1.5em;
+  background-color: transparent;
+}
+
+button:hover{
+  color: #006699;
+  border: 2px solid #006699;
+}
+
+
+
+
+
