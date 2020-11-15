@@ -71,9 +71,11 @@ function setText(text){
         for(let i = 0; i<text.length; i++){
             let fontPath = font.getPath(text[i],0,0,150);
             let paperPath = paper.project.importSVG(fontPath.toSVG());
+            let glyphOffset = paperPath.bounds.bottomCenter.y;
             paperPath.fillColor = 'white';
             paperPath.strokeColor = null;
             paperPath.bounds.bottomCenter = new Point(300+ (4-(i%4))*120, 300+ (4-Math.floor(i/4))*120 );
+            paperPath.position.y += glyphOffset;
             if(i>=4){
 
                 //special case for umlauts
