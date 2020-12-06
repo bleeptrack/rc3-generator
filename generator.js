@@ -11,6 +11,9 @@ let pixels;
 let overlay;
 let textContent = 'rc3';
 let dragging = false;
+let templates;
+let templatesJSON;
+let indicator;
 
 window.onload = function() {
 	paper.setup('paperCanvas');
@@ -25,16 +28,53 @@ window.onload = function() {
     }
 
     //generation process
-    generatePixels();
+    initPixels();
+    simplexPixels();
     generateOverlay();
     setText("rc3");
 
     view.onClick = function(event){
-        generatePixels();
+        simplexPixels();
     }
     view.onMouseUp = function(event){
         dragging = false;
     }
+
+    templates = document.getElementById('templates');
+
+    loadTemplates();
+}
+
+
+//load templates from json
+function loadTemplates(){
+    let url = window.location.href + '/templates.json';
+
+    fetch(url)
+        .then(res => res.json())
+        .then((out) => {
+
+            out.forEach( function(temp, idx){
+                let template = document.createElement('div');
+                template.classList.add("template");
+                template.addEventListener('click', function (event) {
+                     templatePixels(idx);
+                });
+                for(let y = 0; y< 6; y++){
+                    for(let x = 0; x< 6; x++){
+                        let pixel = document.createElement('div');
+                        pixel.style.backgroundColor = colors[currentColor][temp.data[y][x]];
+                        pixel.classList.add("pixel");
+                        template.appendChild(pixel);
+                    }
+                }
+
+                templates.appendChild(template);
+            });
+
+            templatesJSON = out;
+        })
+        .catch(err => { throw err });
 }
 
 //Set one of 3 colors via radio buttons
@@ -74,7 +114,7 @@ function setText(text){
             let glyphOffset = paperPath.bounds.bottomCenter.y;
             paperPath.fillColor = 'white';
             paperPath.strokeColor = null;
-            paperPath.bounds.bottomCenter = new Point(300+ (4-(i%4))*120, 300+ (4-Math.floor(i/4))*120 );
+            paperPath.bounds.bottomCenter = new Point(300+ (4-(i%4))*117, 300+ (4-Math.floor(i/4))*117 );
             paperPath.position.y += glyphOffset;
             if(i>=4){
 
@@ -138,14 +178,52 @@ function generateOverlay(){
 
 }
 
-//generate pixel grid using simplex noise
-function generatePixels(){
-    let oldPixelPos = null;
-    if(pixels){
-        oldPixelPos = pixels.position;
-        pixels.removeChildren();
-    }
+//create pixel paths
+function initPixels(){
+    indicator = new Path.Rectangle([0, 0], [pixelSize, pixelSize]);
+    indicator.strokeWidth = 3;
+    indicator.strokeCap = 'round';
+    indicator.dashArray = [4, 10];
+
     pixels = new Group();
+
+    _.range(6*6).forEach(function(_val, idx){
+        let x = idx % 6;
+        let y = Math.floor(idx / 6);
+        let rect = new Path.Rectangle([pixelSize*x+200, pixelSize*y+200], [pixelSize, pixelSize]);
+        rect.fillColor = colors[currentColor][0];
+        rect.applyMatrix= false;
+        rect.scaling = 1.01;
+        rect.colStep = 0;
+        rect.strokeWidth = 3;
+        rect.strokeCap = 'round';
+        rect.dashArray = [4, 10];
+        rect.onClick = function(event) {
+            event.stop();
+            this.colStep = (this.colStep+1) % 5;
+            this.tweenTo({ fillColor: colors[currentColor][this.colStep] }, { duration:  _.random(0, 200) });
+        }
+        rect.onMouseEnter = function(event){
+            if(!dragging){
+                indicator.strokeColor = 'lightgrey';
+                indicator.position = this.position;
+
+            }
+
+        }
+        rect.onMouseLeave = function(event){
+            indicator.strokeColor = undefined;
+        }
+        pixels.addChild(rect);
+
+    });
+
+    pixels.position = project.view.bounds.center;
+    pixels.sendToBack();
+}
+
+//generate pixel grid using simplex noise
+function simplexPixels(){
 
     let simplex = new SimplexNoise();
     let values = [];
@@ -164,41 +242,26 @@ function generatePixels(){
     strechedValues = strechedValues.map( val => val<0 ? 0 : Math.ceil(val / 0.25) )
 
     strechedValues.forEach(function(val, idx){
-        let x = idx % 6;
-        let y = Math.floor(idx / 6);
-        let rect = new Path.Rectangle([pixelSize*x+200, pixelSize*y+200], [pixelSize, pixelSize]);
-        rect.fillColor = colors[currentColor][val];
-        rect.applyMatrix= false;
-        rect.scaling = 1.01;
-        rect.colStep = val;
-        rect.strokeWidth = 3;
-        rect.strokeCap = 'round';
-        rect.dashArray = [4, 10];
-        rect.tweenFrom({ scaling: 0.0001 }, { duration:  _.random(0, 200) + val*200});
-        rect.onClick = function(event) {
-            event.stop();
-            this.colStep = (this.colStep+1) % 5;
-            this.tweenTo({ fillColor: colors[currentColor][this.colStep] }, { duration:  _.random(0, 200) });
-        }
-        rect.onMouseEnter = function(event){
-            if(!dragging){
-                this.strokeColor = 'lightgrey';
-                this.bringToFront();
-            }
-
-        }
-        rect.onMouseLeave = function(event){
-            this.strokeColor = undefined;
-        }
-        pixels.addChild(rect);
-
+        pixels.children[idx].scale(pixelSize*1.01 / pixels.children[idx].bounds.width);
+        pixels.children[idx].fillColor = colors[currentColor][val];
+        pixels.children[idx].colStep = val;
+        pixels.children[idx].tweenFrom({ scaling: 0.0001 }, { duration:  _.random(0, 200) + val*200});
     });
+}
 
-    pixels.position = project.view.bounds.center;
-    if(oldPixelPos){
-        pixels.position = oldPixelPos;
+//color pixels based on template
+function templatePixels(id){
+    for(let y = 0; y< 6; y++){
+        for(let x = 0; x< 6; x++){
+            let val = templatesJSON[id].data[y][x];
+            let idx = 6*y + x;
+            pixels.children[idx].scale(pixelSize*1.01 / pixels.children[idx].bounds.width);
+            pixels.children[idx].fillColor = colors[currentColor][val];
+            pixels.children[idx].colStep = val;
+            pixels.children[idx].tweenFrom({ scaling: 0.0001 }, { duration:  _.random(0, 200) + val*200});
+        }
     }
-    pixels.sendToBack();
+
 }
 
 function clampValue(value, min, max){

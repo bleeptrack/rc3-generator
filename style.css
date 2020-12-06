@@ -18,6 +18,11 @@ body{
 	background-color: black;
 }
 
+h3{
+    font-family: Orbitron, sans-serif;
+    color: #B239FF;
+}
+
 [type="radio"]:checked,
 [type="radio"]:not(:checked) {
     position: absolute;
@@ -180,6 +185,27 @@ button{
 button:hover{
   color: #006699;
   border: 2px solid #006699;
+}
+
+#templates{
+
+    position: fixed;
+    left: 20px;
+    top: 10%;
+    max-height: 70%;
+}
+
+.template{
+    width: 60px;
+    height: 60px;
+    border: 1px solid white;
+    margin: 3px;
+}
+
+.pixel{
+    width: 10px;
+    height: 10px;
+    float: left;
 }
 
 
