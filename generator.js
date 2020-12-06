@@ -88,7 +88,7 @@ function setColor(colNr){
 
 //generate text
 function setText(text){
-    opentype.load("Orbitron-Bold.ttf", function(err, font) {
+    opentype.load("Orbitron-Black.ttf", function(err, font) {
 
         if (err) {
             console.log(err.toString());
@@ -123,7 +123,7 @@ function setText(text){
                 if(letterBelow._class == "CompoundPath" && letterBelow.intersects(paperPath)){
                     letterBelow.children
                         .filter(path => path.position.y - letterBelow.bounds.topLeft.y < 25)
-                        .forEach(path => path.scale(1.2));
+                        .forEach(path => path.scale(1.2).translate([-1,0]));
                     let tmp = paperPath.subtract(letterBelow);
                     tmp.fillColor = 'white';
                     paperPath.remove();
