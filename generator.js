@@ -3,7 +3,8 @@ paper.install(window);
 const colors = [
     ['black', '#240038', '#440069', '#670295', '#B239FF'],
     ['black', '#12002F', '#2A005E', '#41008B', '#6800E7'],
-    ['black', '#002A3A', '#025D84', '#0076A9', '#05B9EC']
+    ['black', '#002A3A', '#025D84', '#0076A9', '#05B9EC'],
+    ['black', '#400020', '#800040', '#BF0060', '#FF007F']
 ];
 const pixelSize = 100;
 let currentColor = 0;
