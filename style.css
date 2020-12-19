@@ -73,6 +73,10 @@ h3{
 #col3:not(:checked) + label:before {
     border: 2px solid #05B9EC;
 }
+#col4:checked + label:before,
+#col4:not(:checked) + label:before {
+    border: 2px solid #02FAE0;
+}
 
 #col1 + label:after{
     background: #B239FF;
@@ -83,6 +87,10 @@ h3{
 #col3 + label:after{
     background: #05B9EC;
 }
+#col4 + label:after{
+    background: #02FAE0;
+}
+
 [type="radio"]:not(:checked) + label:after {
     opacity: 0;
     -webkit-transform: scale(0);
@@ -94,11 +102,11 @@ h3{
     transform: scale(1);
 }
 
-#col2stage, #col3stage{
+#col2stage, #col3stage, #col4stage{
     margin-left: 2vw;
 }
 
-#col3stage{
+#col4stage{
     margin-right: 2.8vw;
 }
 
