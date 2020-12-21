@@ -260,10 +260,10 @@ function templatePixels(id){
         for(let x = 0; x< 6; x++){
             let val = templatesJSON[id].data[y][x];
             let idx = 6*y + x;
-            pixels.children[idx].scale(pixelSize*1.01 / pixels.children[idx].bounds.width);
-            pixels.children[idx].fillColor = colors[currentColor][val];
-            pixels.children[idx].colStep = val;
-            pixels.children[idx].tweenFrom({ scaling: 0.0001 }, { duration:  _.random(0, 200) + val*200});
+            pixels.children[idx+1].scale(pixelSize*1.01 / pixels.children[idx+1].bounds.width);
+            pixels.children[idx+1].fillColor = colors[currentColor][val];
+            pixels.children[idx+1].colStep = val;
+            pixels.children[idx+1].tweenFrom({ scaling: 0.0001 }, { duration:  _.random(0, 200) + val*200});
         }
     }
 
