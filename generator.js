@@ -186,12 +186,16 @@ function initPixels(){
     indicator.strokeCap = 'round';
     indicator.dashArray = [4, 10];
 
+    let bgRect = new Path.Rectangle([0,0], [pixelSize*6, pixelSize*6]);
+    bgRect.fillColor = 'black';
+
     pixels = new Group();
+    pixels.addChild(bgRect);
 
     _.range(6*6).forEach(function(_val, idx){
         let x = idx % 6;
         let y = Math.floor(idx / 6);
-        let rect = new Path.Rectangle([pixelSize*x+200, pixelSize*y+200], [pixelSize, pixelSize]);
+        let rect = new Path.Rectangle([pixelSize*x, pixelSize*y], [pixelSize, pixelSize]);
         rect.fillColor = colors[currentColor][0];
         rect.applyMatrix= false;
         rect.scaling = 1.01;
@@ -243,10 +247,10 @@ function simplexPixels(){
     strechedValues = strechedValues.map( val => val<0 ? 0 : Math.ceil(val / 0.25) )
 
     strechedValues.forEach(function(val, idx){
-        pixels.children[idx].scale(pixelSize*1.01 / pixels.children[idx].bounds.width);
-        pixels.children[idx].fillColor = colors[currentColor][val];
-        pixels.children[idx].colStep = val;
-        pixels.children[idx].tweenFrom({ scaling: 0.0001 }, { duration:  _.random(0, 200) + val*200});
+        pixels.children[idx+1].scale(pixelSize*1.01 / pixels.children[idx+1].bounds.width);
+        pixels.children[idx+1].fillColor = colors[currentColor][val];
+        pixels.children[idx+1].colStep = val;
+        pixels.children[idx+1].tweenFrom({ scaling: 0.0001 }, { duration:  _.random(0, 200) + val*200});
     });
 }
 
