@@ -195,12 +195,21 @@ button:hover{
   border: 2px solid #006699;
 }
 
-#templates{
-
+#templatesheader{
     position: fixed;
     left: 20px;
     top: 10%;
     max-height: 70%;
+}
+
+#templates{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    position: fixed;
+    left: 20px;
+    top: 20%;
+    max-height: 50%;
 }
 
 .template{
